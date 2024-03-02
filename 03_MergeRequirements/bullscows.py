@@ -1,6 +1,6 @@
 import argparse
 import random
-
+from cowsay import cowsay, list_cows
 import urllib.robotparser
 
 parser = argparse.ArgumentParser(description='Cowsay function')
@@ -8,6 +8,8 @@ parser = argparse.ArgumentParser(description='Cowsay function')
 parser.add_argument("inp", type=str, nargs="*")
 
 args = parser.parse_args()
+
+cow_list = list_cows()
 
 
 def bullscows(guess: str, secret: str) -> (int, int):
@@ -50,7 +52,8 @@ def ask(prompt: str, valid: list[str] = None) -> str:
 
     while True:
 
-        print(prompt)
+        print(cowsay(prompt,
+                     cow=random.choice(cow_list)))
 
         inp = input()
 
@@ -62,7 +65,8 @@ def ask(prompt: str, valid: list[str] = None) -> str:
 
 def inform(format_string: str, bulls: int, cows: int) -> None:
 
-    print(format_string.format(bulls, cows), "\n")
+    print(cowsay(format_string.format(bulls, cows),
+                 cow=random.choice(cow_list)))
 
 
 def gameplay(ask: callable, inform: callable, words: list[str]) -> int:
