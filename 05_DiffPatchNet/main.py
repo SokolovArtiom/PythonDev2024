@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 import asyncio
 import cowsay
 
@@ -36,9 +35,10 @@ async def chat(reader, writer):
                         await clients[cow2code[msg.split()[1]]].put(cowsay.cowsay(msg.split()[2],
                                                                                   cow=code2cow[me]))
                 elif msg.split()[0] == "yield":
-                    for out in clients:
-                        if out is not clients[me]:
-                            await out.put(msg.split()[1])
+                    for addr in code2cow:
+                        if addr != me:
+                            await clients[addr].put(cowsay.cowsay(msg.split()[1],
+                                                                  cow=code2cow[me]))
                 elif msg.split()[0] == "quit":
                     cow2code.pop(code2cow[me])
                     code2cow.pop(me)
